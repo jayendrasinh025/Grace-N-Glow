@@ -34,7 +34,7 @@ export const Layout: React.FC<LayoutProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 16);
+      setScrolled(window.scrollY > 12);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -45,38 +45,54 @@ export const Layout: React.FC<LayoutProps> = ({
     onNavigate(page);
   };
 
+  // Top Navigation items as specified: Home · Our Products · About Us · Skincare Tips · Contact
   const navItems: { label: string; route: PageRoute; activeMatch: PageRoute[] }[] = [
     { label: 'Home', route: 'home', activeMatch: ['home'] },
-    { label: 'Shop', route: 'shop', activeMatch: ['shop', 'product-detail'] },
-    { label: 'Skincare Guide', route: 'guide', activeMatch: ['guide', 'guide-article'] },
+    { label: 'Our Products', route: 'shop', activeMatch: ['shop', 'product-detail'] },
     { label: 'About Us', route: 'about', activeMatch: ['about'] },
+    { label: 'Skincare Tips', route: 'guide', activeMatch: ['guide', 'guide-article'] },
     { label: 'Contact', route: 'contact', activeMatch: ['contact'] },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#FFFBFB] text-[#2C2226]">
-      {/* Top Bar Contract: 3 zones separated by gap-8 */}
+    <div className="min-h-screen flex flex-col bg-[#FFF5F7] text-[#242124]">
+      {/* Top Navigation */}
       <header
-        className={`sticky top-0 z-40 transition-colors duration-200 ${
+        className={`sticky top-0 z-40 transition-all duration-300 animate-hero-fade-up ${
           scrolled
-            ? 'bg-[#FFFBFB]/95 backdrop-blur-md border-b border-[#EAD8DC]'
-            : 'bg-[#FFFBFB] border-b border-[#F2E4E7]'
+            ? 'bg-[#FFF5F7]/92 backdrop-blur-md border-b border-[#F2DCE2]'
+            : 'bg-[#FFF5F7]/75 backdrop-blur-xs border-b border-transparent'
         }`}
       >
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 h-16 md:h-20 flex items-center justify-between gap-8">
-          {/* Zone 1: Single text element wordmark */}
+        <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 h-16 md:h-20 flex items-center justify-between gap-8">
+          {/* Zone 1: Logo with minimal botanical floral symbol */}
           <button
             type="button"
             onClick={() => handleNavClick('home')}
-            className="font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight text-[#2C2226] hover:text-[#9E4758] transition-colors whitespace-nowrap shrink-0 text-left focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#9E4758]"
+            className="inline-flex items-center gap-2.5 font-serif-editorial text-xl sm:text-2xl font-semibold tracking-tight text-[#242124] hover:text-[#D96C8A] transition-colors whitespace-nowrap shrink-0 text-left cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#D96C8A]"
           >
-            Grace N Glow
+            <svg
+              aria-hidden="true"
+              viewBox="0 0 24 24"
+              className="w-5 h-5 text-[#52745A] shrink-0"
+              fill="none"
+            >
+              <path
+                d="M12 3C14.5 7 18.5 9.5 21 12C18.5 14.5 14.5 17 12 21C9.5 17 5.5 14.5 3 12C5.5 9.5 9.5 7 12 3Z"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <circle cx="12" cy="12" r="2.2" fill="#D96C8A" />
+            </svg>
+            <span>Grace N Glow</span>
           </button>
 
-          {/* Zone 2: 5 concise single-line text navigation links */}
+          {/* Zone 2: Navigation Links (Desktop > 820px) */}
           <nav
             aria-label="Primary Navigation"
-            className="hidden md:flex items-center gap-7 text-sm font-medium text-[#5A474E]"
+            className="hidden min-[821px]:flex items-center gap-7 text-sm font-medium text-[#777078]"
           >
             {navItems.map((item) => {
               const isActive = item.activeMatch.includes(currentPage);
@@ -85,10 +101,10 @@ export const Layout: React.FC<LayoutProps> = ({
                   key={item.route}
                   type="button"
                   onClick={() => handleNavClick(item.route)}
-                  className={`py-1 transition-colors whitespace-nowrap shrink-0 border-b-2 ${
+                  className={`py-1 transition-colors whitespace-nowrap shrink-0 border-b-2 cursor-pointer ${
                     isActive
-                      ? 'text-[#2C2226] border-[#9E4758] font-medium'
-                      : 'border-transparent hover:text-[#2C2226] hover:border-[#D88C9A]'
+                      ? 'text-[#242124] border-[#D96C8A] font-semibold'
+                      : 'border-transparent hover:text-[#242124] hover:border-[#D96C8A]/50'
                   }`}
                 >
                   {item.label}
@@ -97,35 +113,33 @@ export const Layout: React.FC<LayoutProps> = ({
             })}
           </nav>
 
-          {/* Zone 3: 1 primary action (plus mobile menu trigger on mobile) */}
+          {/* Zone 3: Rose-pink pill button labelled "Explore Products" + Mobile Menu Trigger */}
           <div className="flex items-center gap-3 shrink-0">
-            <a
-              href={buildWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2.5 text-xs sm:text-sm font-medium text-white bg-[#2E5A44] hover:bg-[#234735] rounded-lg transition-colors whitespace-nowrap shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2E5A44]"
+            <button
+              type="button"
+              onClick={() => handleNavClick('shop')}
+              className="hidden sm:inline-flex items-center justify-center px-5 py-2.5 text-xs sm:text-sm font-medium text-white bg-[#D96C8A] hover:bg-[#C45675] active:scale-[0.98] rounded-full shadow-[0_6px_18px_-6px_rgba(217,108,138,0.55)] transition-all whitespace-nowrap shrink-0 cursor-pointer focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#D96C8A]"
             >
-              <MessageCircle className="w-4 h-4 shrink-0" />
-              <span>WhatsApp Enquiry</span>
-            </a>
+              Explore Products
+            </button>
 
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-expanded={mobileMenuOpen}
               aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
-              className="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-lg text-[#2C2226] hover:bg-[#F9E8EC] transition-colors"
+              className="min-[821px]:hidden inline-flex items-center justify-center w-11 h-11 rounded-full text-[#242124] bg-white/80 border border-[#F0D6DE] hover:bg-[#FCE8EE] transition-colors cursor-pointer"
             >
               {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
           </div>
         </div>
 
-        {/* Mobile Navigation Drawer */}
+        {/* Mobile Navigation Drawer (Screens <= 820px) */}
         {mobileMenuOpen && (
-          <div className="md:hidden bg-[#FFFBFB] border-b border-[#EAD8DC] px-4 pt-3 pb-6 space-y-3 shadow-sm">
+          <div className="min-[821px]:hidden bg-[#FFF5F7] border-b border-[#EAD8DC] px-4 pt-3 pb-6 space-y-3 shadow-sm">
             <div className="pb-2 border-b border-[#F2E4E7]">
-              <p className="text-xs text-[#6E5D63]">
+              <p className="text-xs text-[#777078]">
                 {BRAND_CONFIG.descriptor} · {BRAND_CONFIG.tagline}
               </p>
             </div>
@@ -137,10 +151,10 @@ export const Layout: React.FC<LayoutProps> = ({
                     key={item.route}
                     type="button"
                     onClick={() => handleNavClick(item.route)}
-                    className={`w-full text-left px-3 py-3 rounded-lg text-base font-medium transition-colors ${
+                    className={`w-full text-left px-3.5 py-3 rounded-xl text-base font-medium transition-colors cursor-pointer ${
                       isActive
-                        ? 'bg-[#F9E8EC] text-[#2C2226]'
-                        : 'text-[#4A3B40] hover:bg-[#FDF4F6]'
+                        ? 'bg-[#FCE4EC] text-[#242124]'
+                        : 'text-[#242124] hover:bg-white/70'
                     }`}
                   >
                     {item.label}
@@ -148,15 +162,22 @@ export const Layout: React.FC<LayoutProps> = ({
                 );
               })}
             </nav>
-            <div className="pt-2 flex flex-col gap-2">
+            <div className="pt-2 flex flex-col gap-2.5">
+              <button
+                type="button"
+                onClick={() => handleNavClick('shop')}
+                className="w-full inline-flex items-center justify-center px-5 py-3 text-sm font-medium text-white bg-[#D96C8A] hover:bg-[#C45675] rounded-full transition-colors cursor-pointer"
+              >
+                Explore Products
+              </button>
               <a
                 href={buildWhatsAppUrl()}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-white bg-[#2E5A44] hover:bg-[#234735] rounded-lg transition-colors"
+                className="w-full inline-flex items-center justify-center gap-2 px-4 py-3 text-sm font-medium text-[#242124] bg-white border border-[#E6CFD6] hover:bg-[#FCE8EE] rounded-full transition-colors"
               >
-                <MessageCircle className="w-4 h-4" />
-                <span>Order or Ask on WhatsApp ({BRAND_CONFIG.whatsappDisplay})</span>
+                <MessageCircle className="w-4 h-4 text-[#52745A]" />
+                <span>Chat on WhatsApp ({BRAND_CONFIG.whatsappDisplay})</span>
               </a>
             </div>
           </div>
@@ -175,17 +196,30 @@ export const Layout: React.FC<LayoutProps> = ({
               <button
                 type="button"
                 onClick={() => handleNavClick('home')}
-                className="font-serif-editorial text-2xl font-semibold text-[#2C2226] tracking-tight text-left"
+                className="inline-flex items-center gap-2 font-serif-editorial text-2xl font-semibold text-[#242124] tracking-tight text-left cursor-pointer"
               >
-                Grace N Glow
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 24 24"
+                  className="w-5 h-5 text-[#52745A] shrink-0"
+                  fill="none"
+                >
+                  <path
+                    d="M12 3C14.5 7 18.5 9.5 21 12C18.5 14.5 14.5 17 12 21C9.5 17 5.5 14.5 3 12C5.5 9.5 9.5 7 12 3Z"
+                    stroke="currentColor"
+                    strokeWidth="1.6"
+                  />
+                  <circle cx="12" cy="12" r="2.2" fill="#D96C8A" />
+                </svg>
+                <span>Grace N Glow</span>
               </button>
-              <p className="text-xs uppercase tracking-widest text-[#7A5C64] font-medium">
+              <p className="text-xs uppercase tracking-widest text-[#777078] font-medium">
                 {BRAND_CONFIG.descriptor}
               </p>
-              <p className="font-serif-editorial italic text-base text-[#4A3B40]">
+              <p className="font-serif-editorial italic text-base text-[#242124]">
                 “{BRAND_CONFIG.tagline}”
               </p>
-              <p className="text-sm text-[#5A474E] leading-relaxed max-w-sm">
+              <p className="text-sm text-[#777078] leading-relaxed max-w-sm">
                 Thoughtfully presented handmade skincare essentials across India. Explore our
                 product catalogue, learn gentle skincare routines, and connect with us directly on
                 WhatsApp for personalised ordering assistance.
@@ -194,15 +228,15 @@ export const Layout: React.FC<LayoutProps> = ({
 
             {/* Quick Navigation */}
             <div className="lg:col-span-2 space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#2C2226]">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#242124]">
                 Explore
               </h3>
-              <ul className="space-y-2.5 text-sm text-[#5A474E]">
+              <ul className="space-y-2.5 text-sm text-[#777078]">
                 <li>
                   <button
                     type="button"
                     onClick={() => handleNavClick('home')}
-                    className="hover:text-[#9E4758] transition-colors"
+                    className="hover:text-[#D96C8A] transition-colors cursor-pointer"
                   >
                     Home
                   </button>
@@ -211,25 +245,16 @@ export const Layout: React.FC<LayoutProps> = ({
                   <button
                     type="button"
                     onClick={() => handleNavClick('shop')}
-                    className="hover:text-[#9E4758] transition-colors"
+                    className="hover:text-[#D96C8A] transition-colors cursor-pointer"
                   >
-                    Shop All Products
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    onClick={() => handleNavClick('guide')}
-                    className="hover:text-[#9E4758] transition-colors"
-                  >
-                    Skincare Guide
+                    Our Products
                   </button>
                 </li>
                 <li>
                   <button
                     type="button"
                     onClick={() => handleNavClick('about')}
-                    className="hover:text-[#9E4758] transition-colors"
+                    className="hover:text-[#D96C8A] transition-colors cursor-pointer"
                   >
                     About Us
                   </button>
@@ -237,10 +262,19 @@ export const Layout: React.FC<LayoutProps> = ({
                 <li>
                   <button
                     type="button"
-                    onClick={() => handleNavClick('contact')}
-                    className="hover:text-[#9E4758] transition-colors"
+                    onClick={() => handleNavClick('guide')}
+                    className="hover:text-[#D96C8A] transition-colors cursor-pointer"
                   >
-                    Contact Us
+                    Skincare Tips
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() => handleNavClick('contact')}
+                    className="hover:text-[#D96C8A] transition-colors cursor-pointer"
+                  >
+                    Contact
                   </button>
                 </li>
               </ul>
@@ -248,10 +282,10 @@ export const Layout: React.FC<LayoutProps> = ({
 
             {/* Shop Categories */}
             <div className="lg:col-span-3 space-y-3">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#2C2226]">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#242124]">
                 Product Collections
               </h3>
-              <ul className="space-y-2.5 text-sm text-[#5A474E]">
+              <ul className="space-y-2.5 text-sm text-[#777078]">
                 <li>
                   <button
                     type="button"
@@ -259,7 +293,7 @@ export const Layout: React.FC<LayoutProps> = ({
                       onSelectCategory('Face Washes');
                       handleNavClick('shop');
                     }}
-                    className="hover:text-[#9E4758] transition-colors text-left"
+                    className="hover:text-[#D96C8A] transition-colors text-left cursor-pointer"
                   >
                     Handmade & Botanical Face Washes
                   </button>
@@ -271,7 +305,7 @@ export const Layout: React.FC<LayoutProps> = ({
                       onSelectCategory('Moisturizers & Gels');
                       handleNavClick('shop');
                     }}
-                    className="hover:text-[#9E4758] transition-colors text-left"
+                    className="hover:text-[#D96C8A] transition-colors text-left cursor-pointer"
                   >
                     Moisturizers & Soothing Gels
                   </button>
@@ -283,7 +317,7 @@ export const Layout: React.FC<LayoutProps> = ({
                       onSelectCategory('Lip & Skin Balms');
                       handleNavClick('shop');
                     }}
-                    className="hover:text-[#9E4758] transition-colors text-left"
+                    className="hover:text-[#D96C8A] transition-colors text-left cursor-pointer"
                   >
                     Lip Care & Nourishing Balms
                   </button>
@@ -292,7 +326,7 @@ export const Layout: React.FC<LayoutProps> = ({
                   <button
                     type="button"
                     onClick={() => handleNavClick('guide')}
-                    className="hover:text-[#9E4758] transition-colors text-left"
+                    className="hover:text-[#D96C8A] transition-colors text-left cursor-pointer"
                   >
                     24-Hour Patch Testing Guide
                   </button>
@@ -302,14 +336,14 @@ export const Layout: React.FC<LayoutProps> = ({
 
             {/* Direct Contact & Ordering */}
             <div className="lg:col-span-3 space-y-4">
-              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#2C2226]">
+              <h3 className="text-xs font-semibold uppercase tracking-wider text-[#242124]">
                 Direct Enquiries & Orders
               </h3>
-              <div className="space-y-2 text-sm text-[#5A474E]">
+              <div className="space-y-2 text-sm text-[#777078]">
                 <p>
                   We take orders and answer product questions directly via WhatsApp across India.
                 </p>
-                <p className="font-medium text-[#2C2226] tabular-nums">
+                <p className="font-medium text-[#242124] tabular-nums">
                   WhatsApp: {BRAND_CONFIG.whatsappDisplay}
                 </p>
               </div>
@@ -318,7 +352,7 @@ export const Layout: React.FC<LayoutProps> = ({
                   href={buildWhatsAppUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium text-white bg-[#2E5A44] hover:bg-[#234735] rounded-lg transition-colors whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium text-white bg-[#52745A] hover:bg-[#3F5C46] rounded-full transition-colors whitespace-nowrap"
                 >
                   <MessageCircle className="w-4 h-4 shrink-0" />
                   <span>Chat on WhatsApp</span>
@@ -327,9 +361,9 @@ export const Layout: React.FC<LayoutProps> = ({
                 <button
                   type="button"
                   onClick={onOpenInstagramInfo}
-                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium text-[#2C2226] bg-white hover:bg-[#F9E8EC] border border-[#DFC5CB] rounded-lg transition-colors whitespace-nowrap"
+                  className="inline-flex items-center justify-center gap-2 px-4 py-2.5 text-xs font-medium text-[#242124] bg-white hover:bg-[#FCE8EE] border border-[#DFC5CB] rounded-full transition-colors whitespace-nowrap cursor-pointer"
                 >
-                  <Instagram className="w-4 h-4 text-[#9E4758] shrink-0" />
+                  <Instagram className="w-4 h-4 text-[#D96C8A] shrink-0" />
                   <span>Instagram ({BRAND_CONFIG.instagramHandle})</span>
                 </button>
               </div>
@@ -337,7 +371,7 @@ export const Layout: React.FC<LayoutProps> = ({
           </div>
 
           {/* Bottom Legal & Policy Links */}
-          <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[#6E5D63]">
+          <div className="pt-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-xs text-[#777078]">
             <p>
               © {new Date().getFullYear()} {BRAND_CONFIG.name}. All rights reserved. Sample
               Showcase Website.
@@ -346,7 +380,7 @@ export const Layout: React.FC<LayoutProps> = ({
               <button
                 type="button"
                 onClick={() => handleNavClick('privacy')}
-                className="hover:text-[#2C2226] underline-offset-4 hover:underline transition-colors whitespace-nowrap"
+                className="hover:text-[#242124] underline-offset-4 hover:underline transition-colors whitespace-nowrap cursor-pointer"
               >
                 Privacy Policy
               </button>
@@ -354,7 +388,7 @@ export const Layout: React.FC<LayoutProps> = ({
               <button
                 type="button"
                 onClick={() => handleNavClick('terms')}
-                className="hover:text-[#2C2226] underline-offset-4 hover:underline transition-colors whitespace-nowrap"
+                className="hover:text-[#242124] underline-offset-4 hover:underline transition-colors whitespace-nowrap cursor-pointer"
               >
                 Terms & Conditions
               </button>
@@ -362,7 +396,7 @@ export const Layout: React.FC<LayoutProps> = ({
               <button
                 type="button"
                 onClick={() => handleNavClick('shipping')}
-                className="hover:text-[#2C2226] underline-offset-4 hover:underline transition-colors whitespace-nowrap"
+                className="hover:text-[#242124] underline-offset-4 hover:underline transition-colors whitespace-nowrap cursor-pointer"
               >
                 Shipping & Returns Policy
               </button>

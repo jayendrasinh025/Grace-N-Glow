@@ -20,6 +20,8 @@ import {
   SkincareArticle,
 } from '../data/skincareData';
 import { ResilientImage } from '../components/ResilientImage';
+import { ProductCarousel } from '../components/ProductCarousel';
+import { CurvedShowcaseHero } from '../components/CurvedShowcaseHero';
 import { PageRoute } from '../components/Layout';
 
 interface HomePageProps {
@@ -36,185 +38,20 @@ export const HomePage: React.FC<HomePageProps> = ({
   onOpenInstagramInfo,
 }) => {
   const featuredProducts = PRODUCTS.filter((p) => p.featured);
-  const heroPrimaryProduct = PRODUCTS[0]; // Blush Glow Moisturizer
-  const heroSecondaryProduct = PRODUCTS[1]; // Chocolate Lip Balm SPF 30
-  const heroTertiaryProduct = PRODUCTS[2]; // 24 K Gold Facewash
 
   return (
     <div className="space-y-20 md:space-y-28 pb-20">
-      {/* B. Hero Section */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-[#FDF4F6] via-[#FFF9FA] to-[#FFFBFB] border-b border-[#F2E4E7]">
-        {/* Subtle Botanical SVG Background Ornament */}
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 600 600"
-          className="pointer-events-none absolute -top-24 -right-24 w-[420px] h-[420px] text-[#5E7A68]/10"
-          fill="none"
-        >
-          <path
-            d="M300 40C360 150 470 210 560 240C470 290 380 390 300 540C220 390 130 290 40 240C130 210 240 150 300 40Z"
-            stroke="currentColor"
-            strokeWidth="1.5"
-          />
-          <circle cx="300" cy="290" r="140" stroke="currentColor" strokeWidth="1" />
-        </svg>
+      {/* B. Curved Skincare Showcase Hero */}
+      <CurvedShowcaseHero
+        onNavigate={onNavigate}
+        onSelectProduct={onSelectProduct}
+      />
 
-        <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 lg:py-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-10 items-center">
-            {/* Editorial Copy Column */}
-            <div className="lg:col-span-6 space-y-6 md:space-y-8">
-              <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-[#5E7A68] font-medium">
-                <span>{BRAND_CONFIG.descriptor}</span>
-                <span aria-hidden="true">·</span>
-                <span>India</span>
-              </div>
-
-              <h1 className="font-serif-editorial text-4xl sm:text-5xl lg:text-[54px] font-medium text-[#2C2226] leading-[1.14] tracking-tight max-w-xl">
-                Your Natural Glow Begins Here.
-              </h1>
-
-              <p className="text-base sm:text-lg text-[#5A474E] leading-relaxed max-w-xl">
-                Discover thoughtfully presented skincare essentials and simple ways to care for
-                your skin. Explore our handmade cleansers, moisturizers, and lip care—and connect
-                with us directly for personal guidance.
-              </p>
-
-              {/* Two Clear Calls to Action */}
-              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 pt-2">
-                <button
-                  type="button"
-                  onClick={() => onNavigate('shop')}
-                  className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-medium text-white bg-[#9E4758] hover:bg-[#843847] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                >
-                  <span>Explore Our Products</span>
-                  <ArrowRight className="w-4 h-4 shrink-0" />
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => onNavigate('guide')}
-                  className="inline-flex items-center justify-center gap-2.5 px-6 py-3.5 text-sm font-medium text-[#2C2226] bg-white hover:bg-[#F9E8EC] border border-[#DFC5CB] rounded-lg transition-colors whitespace-nowrap shrink-0 cursor-pointer"
-                >
-                  <BookOpen className="w-4 h-4 text-[#5E7A68] shrink-0" />
-                  <span>Discover Your Skincare Routine</span>
-                </button>
-              </div>
-
-              {/* Quiet Editorial Assurance Line (Unboxed Text Metadata) */}
-              <div className="pt-4 border-t border-[#EAD8DC] flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-[#6E5D63]">
-                <span>Small-Batch Handmade Care</span>
-                <span aria-hidden="true">·</span>
-                <span>Responsible Skincare Guides</span>
-                <span aria-hidden="true">·</span>
-                <span>Direct WhatsApp Ordering ({BRAND_CONFIG.whatsappDisplay})</span>
-              </div>
-            </div>
-
-            {/* Editorial Product Photoshoot Composition */}
-            <div className="lg:col-span-6">
-              <div className="grid grid-cols-12 gap-4 sm:gap-5 items-stretch">
-                {/* Main Featured Product Portrait */}
-                <div
-                  onClick={() => onSelectProduct(heroPrimaryProduct)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      onSelectProduct(heroPrimaryProduct);
-                    }
-                  }}
-                  className="col-span-12 sm:col-span-7 group bg-white rounded-2xl border border-[#EAD8DC] p-5 sm:p-6 flex flex-col justify-between cursor-pointer hover:border-[#D88C9A] transition-colors"
-                >
-                  <div className="flex items-center justify-between text-xs text-[#6E5D63] mb-3">
-                    <span>Signature Hydration</span>
-                    <span>Step 02</span>
-                  </div>
-                  <ResilientImage
-                    src={heroPrimaryProduct.primaryImage}
-                    alt={heroPrimaryProduct.name}
-                    bgTone="#FFFFFF"
-                    priority={true}
-                    containerClassName="aspect-square rounded-xl flex items-center justify-center p-2"
-                    className="w-full h-full object-contain group-hover:scale-105"
-                  />
-                  <div className="pt-4 mt-2 border-t border-[#F4E8EB] flex items-center justify-between gap-2">
-                    <div>
-                      <p className="font-serif-editorial text-lg font-medium text-[#2C2226] group-hover:text-[#9E4758] transition-colors">
-                        {heroPrimaryProduct.name}
-                      </p>
-                      <p className="text-xs text-[#6E5D63] mt-0.5">
-                        Grace N Glow Organic Skincare
-                      </p>
-                    </div>
-                    <span className="text-xs font-medium text-[#9E4758] whitespace-nowrap">
-                      View →
-                    </span>
-                  </div>
-                </div>
-
-                {/* Stacked Companion Products */}
-                <div className="col-span-12 sm:col-span-5 flex flex-col gap-4 sm:gap-5 justify-between">
-                  <div
-                    onClick={() => onSelectProduct(heroSecondaryProduct)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        onSelectProduct(heroSecondaryProduct);
-                      }
-                    }}
-                    className="flex-1 group bg-white rounded-2xl border border-[#EAD8DC] p-4 flex flex-col justify-between cursor-pointer hover:border-[#D88C9A] transition-colors"
-                  >
-                    <ResilientImage
-                      src={heroSecondaryProduct.primaryImage}
-                      alt={heroSecondaryProduct.name}
-                      bgTone="#FFFFFF"
-                      priority={true}
-                      containerClassName="aspect-[4/3] rounded-xl flex items-center justify-center p-2"
-                      className="w-full h-full object-contain group-hover:scale-105"
-                    />
-                    <div className="pt-3">
-                      <p className="text-xs text-[#6E5D63]">Daily Lip Care · SPF 30</p>
-                      <p className="font-serif-editorial text-base font-medium text-[#2C2226] group-hover:text-[#9E4758] transition-colors">
-                        Chocolate Lip Balm
-                      </p>
-                    </div>
-                  </div>
-
-                  <div
-                    onClick={() => onSelectProduct(heroTertiaryProduct)}
-                    role="button"
-                    tabIndex={0}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        onSelectProduct(heroTertiaryProduct);
-                      }
-                    }}
-                    className="flex-1 group bg-white rounded-2xl border border-[#EAD8DC] p-4 flex flex-col justify-between cursor-pointer hover:border-[#D88C9A] transition-colors"
-                  >
-                    <ResilientImage
-                      src={heroTertiaryProduct.primaryImage}
-                      alt={heroTertiaryProduct.name}
-                      bgTone="#FFFFFF"
-                      containerClassName="aspect-[4/3] rounded-xl flex items-center justify-center p-2"
-                      className="w-full h-full object-contain group-hover:scale-105"
-                    />
-                    <div className="pt-3">
-                      <p className="text-xs text-[#6E5D63]">Gentle Cleanser · 100 ml</p>
-                      <p className="font-serif-editorial text-base font-medium text-[#2C2226] group-hover:text-[#9E4758] transition-colors">
-                        24 K Gold Facewash
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* Horizontal Product Collection Carousel */}
+      <ProductCarousel
+        onSelectProduct={onSelectProduct}
+        onNavigate={onNavigate}
+      />
 
       {/* C. Brand Introduction */}
       <section className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
