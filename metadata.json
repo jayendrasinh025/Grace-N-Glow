@@ -1,0 +1,6 @@
+{
+  "name": "Grace N Glow — Natural & Handmade Skincare",
+  "description": "Discover organic, handmade, and natural skincare products from Grace N Glow across India. Explore our product catalogue, read responsible skincare guides, and order directly via WhatsApp.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
